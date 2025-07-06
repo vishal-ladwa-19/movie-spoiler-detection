@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Review Spoiler Detector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            padding: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+
+        .review-card {
+            background-color: #ffffff;
+            border-left: 6px solid #4CAF50;
+            margin: 20px auto;
+            padding: 25px;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .review-card:hover {
+            transform: scale(1.015);
+        }
+
+        .spoiler {
+            border-left-color: #f44336;
+            background-color: #fff7f7;
+        }
+
+        .spoiler h3 {
+            color: #b71c1c;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .spoiler-button {
+            padding: 10px 20px;
+            background-color: #b71c1c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .spoiler-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .spoiler-text {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #333;
+            filter: blur(6px);
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .spoiler-text.revealed {
+            filter: blur(0);
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        @media (max-width: 600px) {
+            .review-card {
+                padding: 18px;
+            }
+
+            .spoiler-button {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <script>
+        function showSpoiler(id) {
+            const text = document.getElementById('spoiler-text-' + id);
+            const button = document.getElementById('spoiler-button-' + id);
+
+            if (text && button) {
+                text.classList.add('revealed');
+                button.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>🎬 Movie Reviews</h1>
+
+    {% for review, is_spoiler in results %}
+        <div class="review-card {% if is_spoiler %}spoiler{% endif %}">
+            {% if is_spoiler %}
+                <h3>⚠️ Spoiler Detected</h3>
+                <button class="spoiler-button" id="spoiler-button-{{ loop.index0 }}" onclick="showSpoiler({{ loop.index0 }})">Reveal Spoiler</button>
+                <div class="spoiler-text" id="spoiler-text-{{ loop.index0 }}">{{ review }}</div>
+            {% else %}
+                <p>{{ review }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</body>
+</html>

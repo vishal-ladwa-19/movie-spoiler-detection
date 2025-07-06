@@ -11,9 +11,6 @@ Hugging Face Transformers
 
 IMDb Spoiler Dataset (Kaggle)
 
-🚀 Usage
-Clone the repo
-git clone https://github.com/yourusername/movie-spoiler-detection
 
 Install requirements
 pip install -r requirements.txt
